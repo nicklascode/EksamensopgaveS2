@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Application.Services
 {
-    public class BookingService(IGenericRepository<Booking> bookingRepo) : IBooking
+    public class BookingService(IGenericRepository<Booking> bookingRepo, IGenericRepository<Pitch> pitchRepo) : IBooking
     {
         public async Task<BookingDto> BookPitchAsync(BookingDto bookingDto)
         {
@@ -77,20 +77,28 @@ namespace Application.Services
 
         private async Task<bool> IsValidBooking(BookingDto bookingDto)
         {
-            var existingBookings = await bookingRepo.GetAllAsync();
-            if (existingBookings.Any()) {
-                var overlappingBookings = existingBookings.Where(b => b.PitchId == bookingDto.PitchId &&
-                    ((bookingDto.StartTime < b.EndTime && bookingDto.StartTime >= b.StartTime) || // Start time overlaps
-                     (bookingDto.EndTime > b.StartTime && bookingDto.EndTime <= b.EndTime) || // End time overlaps
-                     (bookingDto.StartTime <= b.StartTime && bookingDto.EndTime >= b.EndTime))); // Encompasses existing booking
+            if (bookingDto is null)
+                throw new ArgumentNullException(nameof(bookingDto));
 
-                if (!overlappingBookings.Any())
-                    return true;
+            // Ensure pitch exists
+            var pitches = await pitchRepo.GetAllAsync();
+            var pitchExists = pitches.Any(p => p.Id == bookingDto.PitchId);
+            if (!pitchExists)
+                throw new InvalidOperationException($"Pitch with id {bookingDto.PitchId} does not exist.");
 
+            // Invalid time range
+            if (bookingDto.EndTime <= bookingDto.StartTime)
                 return false;
-            }
 
-            return true;
+            var existingBookings = await bookingRepo.GetAllAsync();
+
+            var hasOverlap = existingBookings.Any(b =>
+                b.PitchId == bookingDto.PitchId &&
+                bookingDto.StartTime < b.EndTime &&
+                bookingDto.EndTime > b.StartTime
+            );
+
+            return !hasOverlap;
         }
     }
 }
