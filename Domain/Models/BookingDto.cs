@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Domain.Models
 {
-    public record UserDto(string Name, string Email);
+    public record BookingDto(int UserId, int PitchId, DateTime StartTime, DateTime EndTime);
 }
+

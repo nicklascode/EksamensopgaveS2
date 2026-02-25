@@ -10,13 +10,15 @@ namespace API.Controllers
     [ApiController]
     public class AuthController(IAuth authService) : ControllerBase
     {
-
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserDto req)
         {
+            if (!ValidateUser(req))
+                return BadRequest("Incorrect formating");
+
             var user = await authService.RegisterAsync(req);
             if (user == null)
-                return BadRequest("User already exists.");
+                return BadRequest("User with the same name already exists!");
 
             return Ok(user);
         }
@@ -29,6 +31,22 @@ namespace API.Controllers
                 return Unauthorized("User not found!");
 
             return Ok(user);
+        }
+
+        private bool ValidateUser(UserDto req)
+        {
+            if (string.IsNullOrEmpty(req.Name) || string.IsNullOrEmpty(req.Email))
+                return false;
+
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(req.Email);
+                return addr.Address == req.Email;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

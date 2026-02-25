@@ -7,7 +7,33 @@ namespace Domain.Entities
 {
     public class Pitch
     {
-        public int Id { get; set; }
-        public int Index { get; set; }
+        private int _id;
+        private int _index;
+
+        public int Id
+        {
+            get => _id;
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Id must be a positive integer.");
+                }
+                _id = value;
+            }
+        }
+
+        public int Index
+        {
+            get => _index;
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Index must be a positive integer.");
+                }
+                _index = value;
+            }
+        }
     }
 }

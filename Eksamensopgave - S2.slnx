@@ -3,4 +3,8 @@
   <Project Path="Application/Application.csproj" />
   <Project Path="DataAccess/DataAccess.csproj" />
   <Project Path="Domain/Domain.csproj" />
+  <Project Path="Front/Front.csproj" Id="0318d2b2-f74a-419c-b840-24101038bb7b">
+    <Platform Project="x64" />
+    <Deploy />
+  </Project>
 </Solution>

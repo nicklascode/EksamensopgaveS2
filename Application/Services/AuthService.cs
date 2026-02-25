@@ -11,8 +11,6 @@ namespace Application.Services
         {
             var users = await userRepo.GetAllAsync();
             var user = users.FirstOrDefault(u => u.Name == req.Name);
-
-            // User not found
             if (user == null)
             {
                 return null;
