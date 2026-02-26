@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using System.Net.Http;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -23,9 +24,21 @@ namespace Front
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        private readonly IHttpClientFactory factory;
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void RegisterBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var client = factory.CreateClient();
+        }
+
+        private void LoginBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

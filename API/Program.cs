@@ -3,6 +3,7 @@ using Application.Services;
 using DataAccess;
 using DataAccess.Repositories;
 using Domain.Entities;
+using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -20,11 +21,17 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
     ));
 builder.Services.AddScoped<DbContext>(sp => sp.GetRequiredService<AppDbContext>());
 
+builder.Services.AddHttpClient();
+builder.Services.Configure<WeatherApiOptions>(
+    builder.Configuration.GetSection("WeatherApi"));
+
 builder.Services.AddScoped<IAuth, AuthService>();
 builder.Services.AddScoped<IPitch, PitchService>();
 builder.Services.AddScoped<IBooking, BookingService>();
+builder.Services.AddScoped<IWeather, WeatherService>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
 
 var app = builder.Build();
 

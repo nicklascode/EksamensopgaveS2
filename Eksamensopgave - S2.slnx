@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="API/API.csproj" />
   <Project Path="Application/Application.csproj" />
+  <Project Path="DataAccess.Tests/DataAccess.Tests.csproj" Id="95714a7d-299e-48b7-9b53-727fb50b3cf6" />
   <Project Path="DataAccess/DataAccess.csproj" />
   <Project Path="Domain/Domain.csproj" />
   <Project Path="Front/Front.csproj" Id="0318d2b2-f74a-419c-b840-24101038bb7b">

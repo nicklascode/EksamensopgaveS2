@@ -13,7 +13,15 @@
         <MicaBackdrop />
     </Window.SystemBackdrop>
 
-    <Grid>
+    <StackPanel>
+        <TextBox x:Name="nameInput"
+                     Header="Enter your name:" PlaceholderText="Name"
+                     Width="300" HorizontalAlignment="Left"/>
+        <TextBox x:Name="emailInput"
+                     Header="Enter your email:" PlaceholderText="Email"
+                     Width="300" HorizontalAlignment="Left"/>
 
-    </Grid>
+        <Button Content="Register" Click="RegisterBtn_Click"/>
+        <Button Content="Login" Click="LoginBtn_Click"/>
+    </StackPanel>
 </Window>
